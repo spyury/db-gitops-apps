@@ -4,7 +4,7 @@ default:
     annotations:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
     enabled: true
-    enableAutoSync: false  # temporary
+    enableAutoSync: true 
     autoSyncPrune: false
     project: cluster-config
     destination:
