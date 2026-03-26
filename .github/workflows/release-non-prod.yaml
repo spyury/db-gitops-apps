@@ -10,6 +10,8 @@ jobs:
 
   pre-release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     environment: release-gate-dev
     steps:
       - uses: actions/checkout@v4
