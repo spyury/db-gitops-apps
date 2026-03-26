@@ -9,6 +9,8 @@ on:
 jobs:
   production-promotion:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     environment: release-gate-prod
     steps:
       - uses: actions/checkout@v5
