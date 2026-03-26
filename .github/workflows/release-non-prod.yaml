@@ -1,4 +1,4 @@
-name: Release non-production pipeline
+name: Create non-production release
 on:
   workflow_dispatch:
     inputs:
