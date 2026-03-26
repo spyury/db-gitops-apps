@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    application: kube-ops-view
+    component: redis
+  name: kube-ops-view-redis
+  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: kube-ops-view
+      component: redis
+  template:
+    metadata:
+      labels:
+        application: kube-ops-view
+        component: redis
+    spec:
+      containers:
+      - name: redis
+        image: registry.redhat.io/rhel9/redis-7@sha256:d68a6874d376ee7f374b465f483109ec6047c3126d52166de77a06f24ef35b0f
+        ports:
+        - containerPort: 6379
+          protocol: TCP
+        readinessProbe:
+          tcpSocket:
+            port: 6379
+        resources:
+          limits:
+            cpu: 200m
+            memory: 300Mi
+          requests:
+            cpu: 100m
+            memory: 300Mi
+        volumeMounts:
+        - name: redis-data
+          mountPath: /data
+      volumes:
+      - name: redis-data
+        emptyDir: {}
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    application: kube-ops-view
+    component: redis
+  name: kube-ops-view-redis
+  
+spec:
+  selector:
+    application: kube-ops-view
+    component: redis
+  type: ClusterIP
+  ports:
+  - port: 6379
+    protocol: TCP
+    targetPort: 6379

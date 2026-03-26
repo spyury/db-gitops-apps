@@ -1,0 +1,114 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kube-ops-view
+  
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kube-ops-view
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-reader
+subjects:
+- kind: ServiceAccount
+  name: kube-ops-view
+  
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    application: kube-ops-view
+    component: frontend
+    cluster-label: {{ .Values.clusterLabel }}
+    extra-chart-label: {{ .Values.extraChartLabel }}
+    values-chart-label: {{ .Values.valuesChartLabel }}
+    default-chart-label: {{ .Values.defaultChartLabel }}
+  name: kube-ops-view
+  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: kube-ops-view
+      component: frontend
+  template:
+    metadata:
+      labels:
+        application: kube-ops-view
+        component: frontend
+    spec:
+      serviceAccountName: kube-ops-view
+      containers:
+      - name: service
+        image: docker.io/spyury/kube-ops-ngview:v0.0.7
+        args:
+        #  - --redis-url=redis://kube-ops-view-redis:6379
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 5
+        resources:
+          limits:
+            cpu: 750m
+            memory: 512Mi
+          requests:
+            cpu: 500m
+            memory: 512Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    application: kube-ops-view
+    component: frontend
+  name: kube-ops-view
+  
+spec:
+  selector:
+    application: kube-ops-view
+    component: frontend
+  type: ClusterIP
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+
+---
+
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: opsview
+  
+spec:
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: kube-ops-view
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge

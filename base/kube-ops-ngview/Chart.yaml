@@ -1,0 +1,8 @@
+apiVersion: v2
+name: kube-ops-ngview
+version: 0.0.1
+description: Angular-based kube-opsview UI
+type: application
+kubeVersion: '>=1.14.6'
+maintainers:
+- name: Yury Spesivtsev

@@ -1,0 +1,16 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+helmGlobals:
+  chartHome: ../../../base/
+
+helmCharts:
+  - name: kube-ops-ngview
+    version: 0.0.1    
+    releaseName: kube-ops-ngview-0.0.1
+    valuesFile: values.yaml
+    namespace: opsview
+    additionalValuesFiles:
+      - test-values.yaml
+      - ../cluster-level-helm-values.yaml
