@@ -7,7 +7,6 @@ on:
         required: true
 
 jobs:
-
   pre-release:
     runs-on: ubuntu-latest
     permissions:
