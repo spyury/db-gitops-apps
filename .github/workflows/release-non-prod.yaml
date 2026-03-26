@@ -14,6 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: { ref: 'develop' }
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       - name: Create RC Tag
         run: |
           git tag v${{ github.event.inputs.version }}
