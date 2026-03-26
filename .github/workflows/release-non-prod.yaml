@@ -15,8 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with: { ref: 'develop' }
-        env:
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+        
       - name: Create RC Tag
         run: |
           git tag ${{ github.event.inputs.version }}
@@ -24,4 +23,3 @@ jobs:
 
       - name: Notify Staging Deployment
         run: echo "RC1 created. ArgoCD will now sync to Pre-Prod."
-                
