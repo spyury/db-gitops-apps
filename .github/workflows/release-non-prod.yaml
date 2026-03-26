@@ -15,11 +15,11 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with: { ref: 'develop' }
-        
+
       - name: Create RC Tag
         run: |
           git tag ${{ github.event.inputs.version }}
-          git push origin v${{ github.event.inputs.version }}
+          git push origin ${{ github.event.inputs.version }}
 
       - name: Notify Staging Deployment
         run: echo "RC1 created. ArgoCD will now sync to Pre-Prod."
