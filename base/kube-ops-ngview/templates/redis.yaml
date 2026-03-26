@@ -5,6 +5,7 @@ metadata:
     application: kube-ops-view
     component: redis
   name: kube-ops-view-redis
+  namespace: {{ .Release.Namespace }}
   
 spec:
   replicas: 1
@@ -51,6 +52,7 @@ metadata:
     application: kube-ops-view
     component: redis
   name: kube-ops-view-redis
+  namespace: {{ .Release.Namespace }}
   
 spec:
   selector:
