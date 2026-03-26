@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: release-gate-prod
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { fetch-depth: 0 }
 
       - name: Finalize Release
@@ -22,4 +22,3 @@ jobs:
           git merge ${{ github.event.inputs.version }}
           git tag ${STABLE_VERSION}
           git push origin main ${STABLE_VERSION}
-          
