@@ -17,6 +17,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: kube-ops-view
+  namespace: {{ .Release.Namespace }}
   
 
 
