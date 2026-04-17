@@ -19,8 +19,8 @@ jobs:
       - name: Finalize Release
         run: |
           
-          #git config --global user.email "automation@example.com"
-          #git config --global user.name "Githubaction automation"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
           RCVERSION=${{ github.event.inputs.version }}
           STABLE_VERSION=${RCVERSION%-*}
