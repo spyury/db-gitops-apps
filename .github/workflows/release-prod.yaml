@@ -18,6 +18,10 @@ jobs:
 
       - name: Finalize Release
         run: |
+          
+          git config --global user.email "automation@example.com"
+          git config --global user.name "Githubaction automation"
+          
           RCVERSION=${{ github.event.inputs.version }}
           STABLE_VERSION=${RCVERSION%-*}
           git checkout main
