@@ -9,17 +9,22 @@ on:
 jobs:
   production-promotion:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     environment: release-gate-prod
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { fetch-depth: 0 }
 
       - name: Finalize Release
         run: |
+          
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
           RCVERSION=${{ github.event.inputs.version }}
           STABLE_VERSION=${RCVERSION%-*}
           git checkout main
           git merge ${{ github.event.inputs.version }}
           git tag ${STABLE_VERSION}
           git push origin main ${STABLE_VERSION}
-          
