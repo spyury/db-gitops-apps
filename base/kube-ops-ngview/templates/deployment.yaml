@@ -42,9 +42,10 @@ metadata:
     default-chart-label: {{ .Values.defaultChartLabel }}
   name: kube-ops-view
   namespace: {{ .Release.Namespace }}
-  
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=confirm
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       application: kube-ops-view
@@ -96,7 +97,9 @@ metadata:
     component: frontend
   name: kube-ops-view
   namespace: {{ .Release.Namespace }}
-  
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=confirm
+    myadd: annval
 spec:
   selector:
     application: kube-ops-view
@@ -114,7 +117,8 @@ kind: Route
 metadata:
   name: opsview
   namespace: {{ .Release.Namespace }}
-  
+  annotations:
+    custann: cuasval
 spec:
   port:
     targetPort: 8080
