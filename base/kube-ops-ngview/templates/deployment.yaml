@@ -45,7 +45,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-options: Prune=confirm
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       application: kube-ops-view
