@@ -1,4 +1,4 @@
 ---
 - op: replace
   path: /spec/resources/requests/storage
-  value: 5Gi
+  value: 4Gi
